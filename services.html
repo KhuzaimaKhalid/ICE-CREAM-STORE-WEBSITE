@@ -1,0 +1,451 @@
+{% extends "base.html" %}
+{% block title %}Services{% endblock title %}
+{% block body %}
+<style>
+  .hero-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 80px 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
+    animation: float 20s infinite linear;
+  }
+  
+  @keyframes float {
+    0% { transform: translateY(0px); }
+    100% { transform: translateY(-100px); }
+  }
+  
+  .hero-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    animation: fadeInUp 1s ease-out;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.3rem;
+    margin-bottom: 2rem;
+    animation: fadeInUp 1s ease-out 0.3s both;
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .section-title {
+    font-size: 2.5rem;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 3rem;
+    position: relative;
+    color: #333;
+  }
+  
+  .section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    border-radius: 2px;
+  }
+  
+  .flavor-card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    margin-bottom: 2rem;
+    position: relative;
+  }
+  
+  .flavor-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+  }
+  
+  .flavor-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1, #f9ca24);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+  }
+  
+  .flavor-card:hover::before {
+    transform: scaleX(1);
+  }
+  
+  .flavor-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  
+  .flavor-card:hover .flavor-image {
+    transform: scale(1.1);
+  }
+  
+  .flavor-content {
+    padding: 1.5rem;
+  }
+  
+  .flavor-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #333;
+  }
+  
+  .flavor-description {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+  
+  .flavor-origin {
+    display: inline-block;
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+  
+  .mission-vision-section {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    padding: 80px 0;
+    color: white;
+    position: relative;
+  }
+  
+  .mission-vision-card {
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(255,255,255,0.2);
+    transition: all 0.3s ease;
+  }
+  
+  .mission-vision-card:hover {
+    transform: translateY(-5px);
+    background: rgba(255,255,255,0.15);
+  }
+  
+  .mission-vision-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    animation: pulse 2s infinite;
+  }
+  
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+  }
+  
+  .mission-vision-title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  
+  .mission-vision-text {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    opacity: 0.9;
+  }
+  
+  .specialty-section {
+    padding: 80px 0;
+    background: #f8f9fa;
+  }
+  
+  .specialty-item {
+    text-align: center;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    animation: fadeInUp 1s ease-out;
+  }
+  
+  .specialty-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .specialty-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #333;
+  }
+  
+  .specialty-description {
+    color: #666;
+    line-height: 1.6;
+  }
+  
+  .cta-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 60px 0;
+    text-align: center;
+    color: white;
+  }
+  
+  .cta-button {
+    background: white;
+    color: #667eea;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  }
+  
+  .cta-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    color: #667eea;
+  }
+  
+  .animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s ease;
+  }
+  
+  .animate-on-scroll.animated {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="container">
+    <h1 class="hero-title">Our Premium Services</h1>
+    <p class="hero-subtitle">Discover the world's finest ice cream flavors crafted with passion and tradition</p>
+  </div>
+</section>
+
+<!-- International Flavors Section -->
+<section class="specialty-section">
+  <div class="container">
+    <h2 class="section-title animate-on-scroll">International Flavors Collection</h2>
+    <div class="row">
+      <!-- Italian Gelato -->
+      <div class="col-lg-4 col-md-6 animate-on-scroll">
+        <div class="flavor-card">
+          <img src="static\img\italian.jfif" alt="Italian Gelato" class="flavor-image">
+          <div class="flavor-content">
+            <h3 class="flavor-title">Authentic Italian Gelato</h3>
+            <p class="flavor-description">Rich, creamy gelato made with traditional Italian methods. Experience the authentic taste of Sicily with our premium pistachio and stracciatella flavors.</p>
+            <span class="flavor-origin">🇮🇹 Italy</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- German Ice Cream -->
+      <div class="col-lg-4 col-md-6 animate-on-scroll">
+        <div class="flavor-card">
+          <img src="static/img/german.jfif" alt="German Ice Cream" class="flavor-image">
+          <div class="flavor-content">
+            <h3 class="flavor-title">German Schwarzwälder</h3>
+            <p class="flavor-description">Inspired by the famous Black Forest cake, this premium ice cream combines rich chocolate with cherry swirls and kirsch-soaked cake pieces.</p>
+            <span class="flavor-origin">🇩🇪 Germany</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Spanish Ice Cream -->
+      <div class="col-lg-4 col-md-6 animate-on-scroll">
+        <div class="flavor-card">
+          <img src="static\img\spanish.jfif" alt="Spanish Ice Cream" class="flavor-image">
+          <div class="flavor-content">
+            <h3 class="flavor-title">Spanish Horchata</h3>
+            <p class="flavor-description">A creamy, cinnamon-infused ice cream inspired by traditional Spanish horchata, made with rice milk and vanilla for an exotic taste experience.</p>
+            <span class="flavor-origin">🇪🇸 Spain</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Italian Ice Cream -->
+      <div class="col-lg-4 col-md-6 animate-on-scroll">
+        <div class="flavor-card">
+          <img src="static\img\italian.jfif" alt="Italian Ice Cream" class="flavor-image">
+          <div class="flavor-content">
+            <h3 class="flavor-title">Italian Tiramisu</h3>
+            <p class="flavor-description">Rich espresso-infused ice cream with mascarpone swirls and ladyfinger cookie pieces, capturing the essence of the classic Italian dessert.</p>
+            <span class="flavor-origin">🇮🇹 Italy</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Japanese Ice Cream -->
+      <div class="col-lg-4 col-md-6 animate-on-scroll">
+        <div class="flavor-card">
+          <img src="static\img\japan.jfif" alt="Japanese Ice Cream" class="flavor-image">
+          <div class="flavor-content">
+            <h3 class="flavor-title">Japanese Matcha</h3>
+            <p class="flavor-description">Premium ceremonial grade matcha from Kyoto creates this vibrant green ice cream with earthy, slightly sweet flavors that represent the zen of Japanese tea culture.</p>
+            <span class="flavor-origin">🇯🇵 Japan</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Turkish Ice Cream -->
+      <div class="col-lg-4 col-md-6 animate-on-scroll">
+        <div class="flavor-card">
+          <img src="static\img\turkish.jfif" alt="Turkish Ice Cream" class="flavor-image">
+          <div class="flavor-content">
+            <h3 class="flavor-title">Turkish Delight</h3>
+            <p class="flavor-description">Inspired by the famous Turkish confection, this unique ice cream features rose water and pistachios, delivering the exotic flavors of Istanbul's Grand Bazaar.</p>
+            <span class="flavor-origin">🇹🇷 Turkey</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Mission & Vision Section -->
+<section class="mission-vision-section">
+  <div class="container">
+    <h2 class="section-title animate-on-scroll" style="color: white;">Our Mission & Vision</h2>
+    <div class="row">
+      <div class="col-lg-6 animate-on-scroll">
+        <div class="mission-vision-card">
+          <div class="mission-vision-icon">🎯</div>
+          <h3 class="mission-vision-title">Our Mission</h3>
+          <p class="mission-vision-text">
+            To craft the world's finest ice creams using traditional methods and premium ingredients from around the globe. We are committed to bringing authentic international flavors to our customers while maintaining the highest standards of quality and taste. Every scoop tells a story of cultural heritage and culinary excellence.
+          </p>
+        </div>
+      </div>
+      <div class="col-lg-6 animate-on-scroll">
+        <div class="mission-vision-card">
+          <div class="mission-vision-icon">👁️</div>
+          <h3 class="mission-vision-title">Our Vision</h3>
+          <p class="mission-vision-text">
+            To become the leading destination for international ice cream experiences, where every flavor is a journey to a different country. We envision a world where premium ice cream brings people together, celebrating diversity through taste and creating sweet memories that last a lifetime.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Specialties Section -->
+<section class="specialty-section">
+  <div class="container">
+    <h2 class="section-title animate-on-scroll">Why Choose Khuzaima Ice Creams?</h2>
+    <div class="row">
+      <div class="col-lg-3 col-md-6">
+        <div class="specialty-item animate-on-scroll">
+          <div class="specialty-icon">🌍</div>
+          <h3 class="specialty-title">Global Flavors</h3>
+          <p class="specialty-description">Authentic recipes from around the world, bringing international taste experiences to your doorstep.</p>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <div class="specialty-item animate-on-scroll">
+          <div class="specialty-icon">🥇</div>
+          <h3 class="specialty-title">Premium Quality</h3>
+          <p class="specialty-description">Only the finest ingredients sourced from trusted suppliers to ensure exceptional taste and quality.</p>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <div class="specialty-item animate-on-scroll">
+          <div class="specialty-icon">👨‍🍳</div>
+          <h3 class="specialty-title">Master Craftsmanship</h3>
+          <p class="specialty-description">Traditional techniques combined with modern innovation to create perfect texture and flavor balance.</p>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <div class="specialty-item animate-on-scroll">
+          <div class="specialty-icon">❄️</div>
+          <h3 class="specialty-title">Fresh Daily</h3>
+          <p class="specialty-description">Made fresh daily in small batches to ensure optimal freshness and maintain our high standards.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Call to Action -->
+<section class="cta-section">
+  <div class="container">
+    <h2 class="animate-on-scroll">Ready to Experience the World of Flavors?</h2>
+    <p class="animate-on-scroll mb-4">Visit our store today and embark on a delicious journey around the globe!</p>
+    <a href="#" class="cta-button animate-on-scroll">Explore Our Menu</a>
+  </div>
+</section>
+
+<script>
+// Scroll Animation
+function animateOnScroll() {
+  const elements = document.querySelectorAll('.animate-on-scroll');
+  
+  elements.forEach(element => {
+    const elementTop = element.getBoundingClientRect().top;
+    const elementVisible = 150;
+    
+    if (elementTop < window.innerHeight - elementVisible) {
+      element.classList.add('animated');
+    }
+  });
+}
+
+window.addEventListener('scroll', animateOnScroll);
+window.addEventListener('load', animateOnScroll);
+
+// Add smooth scroll behavior
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function (e) {
+    e.preventDefault();
+    document.querySelector(this.getAttribute('href')).scrollIntoView({
+      behavior: 'smooth'
+    });
+  });
+});
+</script>
+
+{% endblock body %}

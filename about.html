@@ -1,0 +1,761 @@
+{% extends "base.html" %}
+{% block title %}About Us{% endblock title %}
+{% block body %}
+<style>
+  .hero-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 100px 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
+    animation: float 20s infinite linear;
+  }
+  
+  @keyframes float {
+    0% { transform: translateY(0px); }
+    100% { transform: translateY(-100px); }
+  }
+  
+  .hero-title {
+    font-size: 4rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    animation: fadeInUp 1s ease-out;
+    position: relative;
+    z-index: 2;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    animation: fadeInUp 1s ease-out 0.3s both;
+    position: relative;
+    z-index: 2;
+    opacity: 0.9;
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .section-title {
+    font-size: 2.8rem;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 3rem;
+    position: relative;
+    color: #333;
+  }
+  
+  .section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    border-radius: 2px;
+  }
+  
+  .story-section {
+    padding: 80px 0;
+    background: #f8f9fa;
+  }
+  
+  .story-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    padding: 3rem;
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  
+  .story-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+  }
+  
+  .story-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1, #f9ca24);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+  }
+  
+  .story-card:hover::before {
+    transform: scaleX(1);
+  }
+  
+  .story-icon {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: bounce 2s infinite;
+  }
+  
+  @keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-10px); }
+    60% { transform: translateY(-5px); }
+  }
+  
+  .story-title {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #333;
+  }
+  
+  .story-text {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #666;
+  }
+  
+  .timeline-section {
+    padding: 80px 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    position: relative;
+  }
+  
+  .timeline {
+    position: relative;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  
+  .timeline::after {
+    content: '';
+    position: absolute;
+    width: 4px;
+    background: rgba(255,255,255,0.3);
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    margin-left: -2px;
+  }
+  
+  .timeline-item {
+    padding: 10px 40px;
+    position: relative;
+    background: inherit;
+    width: 50%;
+    animation: slideIn 0.6s ease-out;
+  }
+  
+  .timeline-item::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    right: -10px;
+    background: white;
+    border-radius: 50%;
+    top: 30px;
+    border: 4px solid #667eea;
+    animation: pulse 2s infinite;
+  }
+  
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(-50px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  
+  .timeline-item:nth-child(even) {
+    left: 50%;
+  }
+  
+  .timeline-item:nth-child(even)::after {
+    left: -10px;
+  }
+  
+  .timeline-content {
+    padding: 2rem;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    border: 1px solid rgba(255,255,255,0.2);
+    transition: all 0.3s ease;
+  }
+  
+  .timeline-content:hover {
+    background: rgba(255,255,255,0.15);
+    transform: scale(1.02);
+  }
+  
+  .timeline-year {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: #ffd700;
+  }
+  
+  .timeline-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+  
+  .timeline-text {
+    font-size: 1rem;
+    line-height: 1.6;
+    opacity: 0.9;
+  }
+  
+  .team-section {
+    padding: 80px 0;
+    background: #f8f9fa;
+  }
+  
+  .team-member {
+    text-align: center;
+    margin-bottom: 3rem;
+    animation: fadeInUp 0.6s ease-out;
+  }
+  
+  .team-avatar {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    margin: 0 auto 1.5rem;
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    color: white;
+    position: relative;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  }
+  
+  .team-avatar:hover {
+    transform: scale(1.05) rotate(5deg);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+  }
+  
+  .team-name {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #333;
+  }
+  
+  .team-position {
+    font-size: 1.1rem;
+    color: #667eea;
+    margin-bottom: 1rem;
+    font-weight: 500;
+  }
+  
+  .team-bio {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #666;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+  
+  .values-section {
+    padding: 80px 0;
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+  }
+  
+  .value-card {
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(255,255,255,0.2);
+    transition: all 0.3s ease;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .value-card:hover {
+    transform: translateY(-10px);
+    background: rgba(255,255,255,0.15);
+  }
+  
+  .value-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+  }
+  
+  .value-card:hover::before {
+    transform: translateX(100%);
+  }
+  
+  .value-icon {
+    font-size: 3.5rem;
+    margin-bottom: 1.5rem;
+    animation: rotateIn 1s ease-out;
+  }
+  
+  @keyframes rotateIn {
+    from { opacity: 0; transform: rotate(-180deg); }
+    to { opacity: 1; transform: rotate(0deg); }
+  }
+  
+  .value-title {
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  
+  .value-text {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    opacity: 0.9;
+  }
+  
+  .stats-section {
+    padding: 80px 0;
+    background: #333;
+    color: white;
+  }
+  
+  .stat-item {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .stat-number {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: countUp 2s ease-out;
+  }
+  
+  @keyframes countUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .stat-label {
+    font-size: 1.2rem;
+    font-weight: 500;
+    opacity: 0.9;
+  }
+  
+  .cta-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 80px 0;
+    text-align: center;
+    color: white;
+  }
+  
+  .cta-title {
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    animation: fadeInUp 0.6s ease-out;
+  }
+  
+  .cta-text {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+    animation: fadeInUp 0.6s ease-out 0.2s both;
+  }
+  
+  .cta-button {
+    background: white;
+    color: #667eea;
+    padding: 1.2rem 2.5rem;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    animation: fadeInUp 0.6s ease-out 0.4s both;
+  }
+  
+  .cta-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    color: #667eea;
+  }
+  
+  .animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s ease;
+  }
+  
+  .animate-on-scroll.animated {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  @media (max-width: 768px) {
+    .hero-title {
+      font-size: 2.5rem;
+    }
+    
+    .timeline::after {
+      left: 31px;
+    }
+    
+    .timeline-item {
+      width: 100%;
+      padding-left: 70px;
+      padding-right: 25px;
+    }
+    
+    .timeline-item:nth-child(even) {
+      left: 0;
+    }
+    
+    .timeline-item::after {
+      left: 21px;
+    }
+    
+    .team-avatar {
+      width: 150px;
+      height: 150px;
+      font-size: 3rem;
+    }
+  }
+</style>
+
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="container">
+    <h1 class="hero-title">About Khuzaima Ice Creams</h1>
+    <p class="hero-subtitle">Crafting Sweet Memories Since Our Beginning</p>
+  </div>
+</section>
+
+<!-- Story Section -->
+<section class="story-section">
+  <div class="container">
+    <h2 class="section-title animate-on-scroll">Our Sweet Story</h2>
+    <div class="row">
+      <div class="col-lg-4 col-md-6 animate-on-scroll">
+        <div class="story-card">
+          <div class="story-icon">🍦</div>
+          <h3 class="story-title">The Beginning</h3>
+          <p class="story-text">
+            Our journey began with a simple dream - to create the world's most delicious ice cream using authentic recipes from around the globe. What started as a passion project in a small kitchen has grown into a beloved destination for ice cream enthusiasts.
+          </p>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6 animate-on-scroll">
+        <div class="story-card">
+          <div class="story-icon">🌍</div>
+          <h3 class="story-title">Global Inspiration</h3>
+          <p class="story-text">
+            We traveled across continents, learning traditional ice cream making techniques from master craftsmen in Italy, Germany, Spain, and beyond. Each flavor tells a story of cultural heritage and culinary excellence.
+          </p>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6 animate-on-scroll">
+        <div class="story-card">
+          <div class="story-icon">❤️</div>
+          <h3 class="story-title">Community Love</h3>
+          <p class="story-text">
+            Today, we're proud to be part of the community, bringing families together over shared sweet moments. Every scoop is made with love, care, and the finest ingredients we can source.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Timeline Section -->
+<section class="timeline-section">
+  <div class="container">
+    <h2 class="section-title animate-on-scroll" style="color: white;">Our Journey Through Time</h2>
+    <div class="timeline">
+      <div class="timeline-item animate-on-scroll">
+        <div class="timeline-content">
+          <div class="timeline-year">2018</div>
+          <h3 class="timeline-title">The Dream Begins</h3>
+          <p class="timeline-text">Khuzaima founded the company with a vision to bring international ice cream flavors to local communities.</p>
+        </div>
+      </div>
+      <div class="timeline-item animate-on-scroll">
+        <div class="timeline-content">
+          <div class="timeline-year">2019</div>
+          <h3 class="timeline-title">First Store Opening</h3>
+          <p class="timeline-text">Our flagship store opened its doors, featuring our signature Italian gelato and German-inspired flavors.</p>
+        </div>
+      </div>
+      <div class="timeline-item animate-on-scroll">
+        <div class="timeline-content">
+          <div class="timeline-year">2020</div>
+          <h3 class="timeline-title">International Recognition</h3>
+          <p class="timeline-text">Won the "Best International Flavors" award at the Regional Ice Cream Festival.</p>
+        </div>
+      </div>
+      <div class="timeline-item animate-on-scroll">
+        <div class="timeline-content">
+          <div class="timeline-year">2021</div>
+          <h3 class="timeline-title">Expansion</h3>
+          <p class="timeline-text">Opened three new locations and introduced our premium Japanese and Turkish flavor lines.</p>
+        </div>
+      </div>
+      <div class="timeline-item animate-on-scroll">
+        <div class="timeline-content">
+          <div class="timeline-year">2022</div>
+          <h3 class="timeline-title">Community Impact</h3>
+          <p class="timeline-text">Launched our "Sweet Smiles" program, providing free ice cream to local children's hospitals.</p>
+        </div>
+      </div>
+      <div class="timeline-item animate-on-scroll">
+        <div class="timeline-content">
+          <div class="timeline-year">2023</div>
+          <h3 class="timeline-title">Innovation</h3>
+          <p class="timeline-text">Introduced our eco-friendly packaging and sustainable sourcing initiatives.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Team Section -->
+<section class="team-section">
+  <div class="container">
+    <h2 class="section-title animate-on-scroll">Meet Our Team</h2>
+    <div class="row">
+      <div class="col-lg-4 col-md-6 animate-on-scroll">
+        <div class="team-member">
+          <div class="team-avatar">👨‍🍳</div>
+          <h3 class="team-name">Khuzaima Ahmed</h3>
+          <p class="team-position">Founder & Master Ice Cream Maker</p>
+          <p class="team-bio">With over 15 years of experience in international cuisine, Khuzaima brings authentic flavors from around the world to create our signature ice cream collection.</p>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6 animate-on-scroll">
+        <div class="team-member">
+          <div class="team-avatar">👩‍🎨</div>
+          <h3 class="team-name">Sarah Johnson</h3>
+          <p class="team-position">Creative Director</p>
+          <p class="team-bio">Sarah leads our flavor innovation team, constantly experimenting with new combinations and seasonal specialties to delight our customers.</p>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6 animate-on-scroll">
+        <div class="team-member">
+          <div class="team-avatar">👨‍💼</div>
+          <h3 class="team-name">Michael Chen</h3>
+          <p class="team-position">Operations Manager</p>
+          <p class="team-bio">Michael ensures our high-quality standards are maintained across all locations while overseeing our daily operations and customer service excellence.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Values Section -->
+<section class="values-section">
+  <div class="container">
+    <h2 class="section-title animate-on-scroll" style="color: white;">Our Core Values</h2>
+    <div class="row">
+      <div class="col-lg-3 col-md-6 animate-on-scroll">
+        <div class="value-card">
+          <div class="value-icon">✨</div>
+          <h3 class="value-title">Quality First</h3>
+          <p class="value-text">We never compromise on quality, using only the finest ingredients and traditional methods to create exceptional ice cream.</p>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6 animate-on-scroll">
+        <div class="value-card">
+          <div class="value-icon">🤝</div>
+          <h3 class="value-title">Community</h3>
+          <p class="value-text">We believe in giving back to our community and creating spaces where families and friends can make sweet memories together.</p>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6 animate-on-scroll">
+        <div class="value-card">
+          <div class="value-icon">🌱</div>
+          <h3 class="value-title">Sustainability</h3>
+          <p class="value-text">We're committed to sustainable practices, from eco-friendly packaging to supporting local suppliers and reducing our environmental impact.</p>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6 animate-on-scroll">
+        <div class="value-card">
+          <div class="value-icon">🎯</div>
+          <h3 class="value-title">Innovation</h3>
+          <p class="value-text">We continuously innovate and experiment with new flavors while respecting traditional techniques and authentic recipes.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Stats Section -->
+<section class="stats-section">
+  <div class="container">
+    <h2 class="section-title animate-on-scroll" style="color: white;">Our Sweet Success</h2>
+    <div class="row">
+      <div class="col-lg-3 col-md-6 animate-on-scroll">
+        <div class="stat-item">
+          <div class="stat-number">50,000+</div>
+          <div class="stat-label">Happy Customers</div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6 animate-on-scroll">
+        <div class="stat-item">
+          <div class="stat-number">25+</div>
+          <div class="stat-label">Unique Flavors</div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6 animate-on-scroll">
+        <div class="stat-item">
+          <div class="stat-number">5</div>
+          <div class="stat-label">Store Locations</div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6 animate-on-scroll">
+        <div class="stat-item">
+          <div class="stat-number">6</div>
+          <div class="stat-label">Years of Excellence</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+  <div class="container">
+    <h2 class="cta-title">Ready to Taste Our Story?</h2>
+    <p class="cta-text">Visit us today and become part of our sweet journey!</p>
+    <a href="#" class="cta-button">Visit Our Store</a>
+  </div>
+</section>
+
+<script>
+// Scroll Animation
+function animateOnScroll() {
+  const elements = document.querySelectorAll('.animate-on-scroll');
+  
+  elements.forEach(element => {
+    const elementTop = element.getBoundingClientRect().top;
+    const elementVisible = 150;
+    
+    if (elementTop < window.innerHeight - elementVisible) {
+      element.classList.add('animated');
+    }
+  });
+}
+
+window.addEventListener('scroll', animateOnScroll);
+window.addEventListener('load', animateOnScroll);
+
+// Counter Animation
+function animateCounters() {
+  const counters = document.querySelectorAll('.stat-number');
+  
+  counters.forEach(counter => {
+    const target = parseInt(counter.textContent.replace(/[^\d]/g, ''));
+    const increment = target / 100;
+    let current = 0;
+    
+    const timer = setInterval(() => {
+      current += increment;
+      if (current >= target) {
+        current = target;
+        clearInterval(timer);
+      }
+      
+      if (counter.textContent.includes('+')) {
+        counter.textContent = Math.floor(current).toLocaleString() + '+';
+      } else {
+        counter.textContent = Math.floor(current).toLocaleString();
+      }
+    }, 20);
+  });
+}
+
+// Trigger counter animation when stats section is visible
+const statsSection = document.querySelector('.stats-section');
+let counterAnimated = false;
+
+function checkStatsVisibility() {
+  if (!counterAnimated) {
+    const sectionTop = statsSection.getBoundingClientRect().top;
+    if (sectionTop < window.innerHeight - 100) {
+      animateCounters();
+      counterAnimated = true;
+    }
+  }
+}
+
+window.addEventListener('scroll', checkStatsVisibility);
+window.addEventListener('load', checkStatsVisibility);
+
+// Smooth scroll for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function (e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({
+        behavior: 'smooth'
+      });
+    }
+  });
+});
+
+// Add parallax effect to hero section
+window.addEventListener('scroll', () => {
+  const scrolled = window.pageYOffset;
+  const hero = document.querySelector('.hero-section');
+  if (hero) {
+    hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+  }
+});
+</script>
+
+{% endblock body %}
